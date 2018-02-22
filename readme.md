@@ -3,78 +3,76 @@
 [![Latest Stable Version](https://poser.pugx.org/barryvdh/laravel-debugbar/version.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 [![Total Downloads](https://poser.pugx.org/barryvdh/laravel-debugbar/d/total.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 
-### Note for v3: Debugbar is now enabled by requiring the package, but still needs APP_DEBUG=true by default!
+### Ghi chú cho phiên bản 3:Debugbar hiện tại bạn đã có thể require (yêu cầu) gói Debugbar nhưng vẫn cần để APP_DEBUG = true như mặc định!!
 
-### For Laravel < 5.5, please use the [2.4 branch](https://github.com/barryvdh/laravel-debugbar/tree/2.4)!
+### Đối với Laravel < 5.5, Hãy sử dụng nhánh [2.4](https://github.com/barryvdh/laravel-debugbar/tree/2.4)!
 
-This is a package to integrate [PHP Debug Bar](http://phpdebugbar.com/) with Laravel 5.
-It includes a ServiceProvider to register the debugbar and attach it to the output. You can publish assets and configure it through Laravel.
-It bootstraps some Collectors to work with Laravel and implements a couple custom DataCollectors, specific for Laravel.
-It is configured to display Redirects and (jQuery) Ajax Requests. (Shown in a dropdown)
+Đây là gói tích hợp [PHP Debug Bar](http://phpdebugbar.com/) với Laravel 5.
+Nó bao gồm ServiceProvider để đăng ký debugbar và gắn nó vào đầu ra. Bạn có thể xuất bản assets và cấu hình nó trên Laravel.
+Nó hỗ trợ 1 vài Collector để làm việc với Laravel và thực hiện 1 vài tùy chỉnh DataCollectors,cụ thẻ với Laravel.
+Nó được cấu hình để hiển thị Redirects và (jQuery) Ajax Requests. (Trình bày trong danh sách thả xuống) Đọc tài liệu để biết thêm các tùy chọn cấu hình.
 Read [the documentation](http://phpdebugbar.com/docs/) for more configuration options.
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/973269/4270452/740c8c8c-3ccb-11e4-8d9a-5a9e64f19351.png)
 
-Note: Use the DebugBar only in development. It can slow the application down (because it has to gather data). So when experiencing slowness, try disabling some of the collectors.
+Lưu ý: Chỉ sử dụng DebugBar trong quá trình phát triển. Nó có thể làm chậm ứng dụng xuống (vì nó đã thu thập dữ liệu). Vì vậy, khi gặp tình trạng chậm chạp, hãy thử vô hiệu hóa một số người thu gom.
 
-This package includes some custom collectors:
- - QueryCollector: Show all queries, including binding + timing
- - RouteCollector: Show information about the current Route.
- - ViewCollector: Show the currently loaded views. (Optionally: display the shared data)
- - EventsCollector: Show all events
- - LaravelCollector: Show the Laravel version and Environment. (disabled by default)
- - SymfonyRequestCollector: replaces the RequestCollector with more information about the request/response
- - LogsCollector: Show the latest log entries from the storage logs. (disabled by default)
- - FilesCollector: Show the files that are included/required by PHP. (disabled by default)
- - ConfigCollector: Display the values from the config files. (disabled by default)
- - CacheCollector: Display all cache events. (disabled by default)
+Gói này bao gồm một số nhà sưu tập tùy chỉnh:
+ - QueryCollector: Hiển thị tất cả các truy vấn, bao gồm cả ràng buộc + thời gian
+ - RouteCollector: Hiển thị thông tin về Route hiện tại.
+ - ViewCollector:  Hiển thị chế độ xem đang được tải. (Tùy chọn: hiển thị dữ liệu được chia sẻ)
+ - EventsCollector: Hiển thị tất cả sự kiện
+ - LaravelCollector: Hiển thị phiên bản Laravel và Môi trường. (tắt theo mặc định)
+ - SymfonyRequestCollector: thay thế RequestCollector với thêm thông tin về yêu cầu / phản hồi
+ - LogsCollector: Hiển thị các mục nhật ký mới nhất từ ​​các bản ghi lưu trữ. (tắt theo mặc định)
+ - FilesCollector: Hiển thị các tệp được bao gồm / yêu cầu bởi PHP. (tắt theo mặc định)
+ - ConfigCollector: Hiển thị các giá trị từ các tệp tin cấu hình. (tắt theo mặc định)
+ - CacheCollector:Hiển thị tất cả sự kiện bộ nhớ cache. (tắt theo mặc định)
 
-Bootstraps the following collectors for Laravel:
- - LogCollector: Show all Log messages
+Nạp những collectors theo Laravel:
+ - LogCollector: Hiển thị tất cả Log Messages
  - SwiftMailCollector and SwiftLogCollector for Mail
 
-And the default collectors:
+Và collectors mặc định:
  - PhpInfoCollector
  - MessagesCollector
  - TimeDataCollector (With Booting and Application timing)
  - MemoryCollector
  - ExceptionsCollector
 
-It also provides a Facade interface for easy logging Messages, Exceptions and Time
+Nó cũng cung cấp một giao diện Facade để dễ dàng ghi lại các thông báo, ngoại lệ và thời gian
 
-## Installation
+## Cài đặt
 
-Require this package with composer. It is recommended to only require the package for development.
+Yêu cầu gói này với composer. Chỉ nên yêu cầu gói hàng để phát triển.
 
 ```shell
 composer require barryvdh/laravel-debugbar --dev
 ```
 
-Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
+Laravel 5.5 sử dụng gói Auto-Discovery,do đó, không yêu cầu bạn phải tự thêm ServiceProvider.
 
-The Debugbar will be enabled when `APP_DEBUG` is `true`.
+Debugbar sẽ được kích hoạt khi `APP_DEBUG` là `true`.
 
-> If you use a catch-all/fallback route, make sure you load the Debugbar ServiceProvider before your own App ServiceProviders.
+>Nếu bạn sử dụng một Route đường bắt / tất cả, hãy chắc chắn rằng bạn tải các ServiceProvider Debugbar trước các ServiceProviders App của riêng bạn.
 
 ### Laravel 5.5+:
 
-If you don't use auto-discovery, add the ServiceProvider to the providers array in config/app.php
+Nếu bạn không sử dụng auto-discovery, thêm ServiceProvider vào mảng providers in config/app.php
 
 ```php
 Barryvdh\Debugbar\ServiceProvider::class,
 ```
 
-If you want to use the facade to log messages, add this to your facades in app.php:
+Nếu bạn muốn sử dụng facade để log messages, thêm nó vào facades của bạn in app.php:
 
 ```php
 'Debugbar' => Barryvdh\Debugbar\Facade::class,
 ```
 
-The profiler is enabled by default, if you have APP_DEBUG=true. You can override that in the config (`debugbar.enabled`) or by setting `DEBUGBAR_ENABLED` in your `.env`. See more options in `config/debugbar.php`
-You can also set in your config if you want to include/exclude the vendor files also (FontAwesome, Highlight.js and jQuery). If you already use them in your site, set it to false.
-You can also only display the js or css vendors, by setting it to 'js' or 'css'. (Highlight.js requires both css + js, so set to `true` for syntax highlighting)
+Trình hồ sơ được kích hoạt theo mặc định, nếu bạn có APP_DEBUG = true. Bạn có thể ghi đè điều đó trong cấu hình (debugbar.enabled) hoặc bằng cách đặt DEBUGBAR_ENABLED trong .vv của bạn. Xem thêm các tùy chọn trong config / debugbar.php Bạn cũng có thể đặt trong cấu hình của bạn nếu bạn muốn bao gồm / loại trừ các tập tin nhà cung cấp cũng (FontAwesome, Highlight.js và jQuery). Nếu bạn đã sử dụng chúng trong trang web của bạn, đặt nó là sai. Bạn cũng có thể chỉ hiển thị các nhà cung cấp js hoặc css, bằng cách đặt nó là 'js' hoặc 'css'. (Highlight.js yêu cầu cả css + js, vì vậy thiết lập để đúng cho cú pháp tô sáng)
 
-Copy the package config to your local config with the publish command:
+Sao chép cấu hình gói sang cấu hình cục bộ của bạn bằng lệnh publish:
 
 ```shell
 php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
@@ -82,7 +80,7 @@ php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 
 ### Lumen:
 
-For Lumen, register a different Provider in `bootstrap/app.php`:
+Đối với Lumen, đăng ký 1 Provider khác trong `bootstrap/app.php`:
 
 ```php
 if (env('APP_DEBUG')) {
@@ -90,15 +88,15 @@ if (env('APP_DEBUG')) {
 }
 ```
 
-To change the configuration, copy the file to your config folder and enable it:
+Để thay đổi configuration, sao chép tập tin vào thư mục config của bạn và kích hoạt nó:
 
 ```php
 $app->configure('debugbar');
 ```
 
-## Usage
+## Cách sử dụng
 
-You can now add messages using the Facade (when added), using the PSR-3 levels (debug, info, notice, warning, error, critical, alert, emergency):
+Bây giờ bạn có thể thêm các tin nhắn bằng cách sử dụng Facade (khi bổ sung), sử dụng mức PSR-3 (gỡ lỗi, thông tin, thông báo, cảnh báo, lỗi, critical, alert, emergency):
 
 ```php
 Debugbar::info($object);
@@ -107,7 +105,7 @@ Debugbar::warning('Watch out…');
 Debugbar::addMessage('Another message', 'mylabel');
 ```
 
-And start/stop timing:
+VÀ start/stop thời gian:
 
 ```php
 Debugbar::startMeasure('render','Time for rendering');
@@ -118,7 +116,7 @@ Debugbar::measure('My long operation', function() {
 });
 ```
 
-Or log exceptions:
+Hoặc log ngoại lệ:
 
 ```php
 try {
@@ -128,7 +126,7 @@ try {
 }
 ```
 
-There are also helper functions available for the most common calls:
+Ngoài ra còn có các chức năng trợ giúp cho những cuộc gọi phổ biến nhất:
 
 ```php
 // All arguments will be dumped as a debug message
@@ -142,7 +140,7 @@ measure('My long operation', function() {
 });
 ```
 
-If you want you can add your own DataCollectors, through the Container or the Facade:
+Nếu bạn muốn bạn có thể thêm DataCollectors của riêng bạn, thông qua Container hoặc Facade:
 
 ```php
 Debugbar::addCollector(new DebugBar\DataCollector\MessagesCollector('my_messages'));
@@ -151,32 +149,30 @@ $debugbar = App::make('debugbar');
 $debugbar->addCollector(new DebugBar\DataCollector\MessagesCollector('my_messages'));
 ```
 
-By default, the Debugbar is injected just before `</body>`. If you want to inject the Debugbar yourself,
-set the config option 'inject' to false and use the renderer yourself and follow http://phpdebugbar.com/docs/rendering.html
+Theo mặc định, thanh Debugbar được tiêm ngay trước </ body>. Nếu bạn muốn tự mình chèn Debugbar, hãy đặt tùy chọn cấu hình 'inject' thành false và sử dụng trình kết xuất chính mình và làm theo http://phpdebugbar.com/docs/rendering.html
 
 ```php
 $renderer = Debugbar::getJavascriptRenderer();
 ```
 
-Note: Not using the auto-inject, will disable the Request information, because that is added After the response.
-You can add the default_request datacollector in the config as alternative.
+Lưu ý: Không sử dụng tự động chèn, sẽ vô hiệu hóa thông tin Yêu cầu, bởi vì nó được thêm vào Sau phản hồi. Bạn có thể thêm default_request datacollector trong config dưới dạng thay thế.
 
-## Enabling/Disabling on run time
-You can enable or disable the debugbar during run time.
+## Kích hoạt / Tắt trên thời gian chạy
+Bạn có thể bật hoặc tắt thanh gỡ lỗi trong thời gian chạy.
 
 ```php
 \Debugbar::enable();
 \Debugbar::disable();
 ```
 
-NB. Once enabled, the collectors are added (and could produce extra overhead), so if you want to use the debugbar in production, disable in the config and only enable when needed.
+NB. Sau khi được kích hoạt, người sưu tập được thêm vào (và có thể tạo thêm chi phí), vì vậy nếu bạn muốn sử dụng debugbar trong sản xuất, vô hiệu hóa trong cấu hình và chỉ kích hoạt khi cần thiết.
 
 
-## Twig Integration
+## Tích hợp Twig
 
-Laravel Debugbar comes with two Twig Extensions. These are tested with [rcrowe/TwigBridge](https://github.com/rcrowe/TwigBridge) 0.6.x
+Laravel Debugbar đi kèm với hai Tiện ích mở rộng Twig. Đây là những thử nghiệm với rcrowe / TwigBridge 0.6.x
 
-Add the following extensions to your TwigBridge config/extensions.php (or register the extensions manually)
+Thêm các phần mở rộng sau vào TwigBridge config / extensions.php của bạn (hoặc đăng ký các phần mở rộng theo cách thủ công)
 
 ```php
 'Barryvdh\Debugbar\Twig\Extension\Debug',
@@ -184,15 +180,14 @@ Add the following extensions to your TwigBridge config/extensions.php (or regist
 'Barryvdh\Debugbar\Twig\Extension\Stopwatch',
 ```
 
-The Dump extension will replace the [dump function](http://twig.sensiolabs.org/doc/functions/dump.html) to output variables using the DataFormatter. The Debug extension adds a `debug()` function which passes variables to the Message Collector,
-instead of showing it directly in the template. It dumps the arguments, or when empty; all context variables.
+Phần mở rộng Dump sẽ thay thế chức năng dump cho biến đầu ra sử dụng DataFormatter. Phần mở rộng Gỡ lỗi thêm chức năng gỡ lỗi () vượt qua các biến vào Trình thu thập tin tức, thay vì hiển thị nó trực tiếp trong mẫu. Nó bỏ các đối số, hoặc khi có sản phẩm nào; tất cả các biến ngữ cảnh.
 
 ```twig
 {{ debug() }}
 {{ debug(user, categories) }}
 ```
 
-The Stopwatch extension adds a [stopwatch tag](http://symfony.com/blog/new-in-symfony-2-4-a-stopwatch-tag-for-twig)  similar to the one in Symfony/Silex Twigbridge.
+Phần mở rộng Stopwatch thêm một nhãn stopwatch tương tự như trong Symfony / Silex Twigbridge.
 
 ```twig
 {% stopwatch "foo" %}
